@@ -43,6 +43,7 @@ public class OutpatientController extends GenericController {
 	@RequestMapping(value="selectByExample",method=RequestMethod.POST)
 	public void select(HttpServletRequest request, HttpServletResponse response){
 		String sectionName = request.getParameter("data");
+		System.out.println(sectionName);
 		List<Outpatient> list = outpatientService.selectBySectionName(sectionName);
 		if(list!=null){
 			renderSuccessString(response, list);
