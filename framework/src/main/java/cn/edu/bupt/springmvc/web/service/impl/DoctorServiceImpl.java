@@ -149,9 +149,8 @@ public class DoctorServiceImpl implements DoctorService {
 				releasenumExample.createCriteria().andDoctoridEqualTo(doctorId).andDateBetween(date1, date2);
 				List<Releasenum> releasenumList = releasenumMapper.selectByExample(releasenumExample);
 				if(releasenumList!=null){
-				Doctor doc = new Doctor();
-				doc.setReleaseNumList(releasenumList);
-				doctorReleasList.add(doc);
+				doctor.setReleaseNumList(releasenumList);
+				doctorReleasList.add(doctor);
 				}
 			}
 		}
