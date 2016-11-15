@@ -21,6 +21,7 @@ public interface SectionService {
 	
 	public List<Doctor> getSectionDoctorList(String sectionId)throws Exception;
 	
+	Section getSectionById(String outpatientId);
 	/**
 	 * 根据科室名称查找科室门诊信息
 	 * 
@@ -29,4 +30,5 @@ public interface SectionService {
 	 * 
 	 * */
 	Section selectBySectionName(String sectionName);
+	Section searchSectionInfo(String sectionId);
 }

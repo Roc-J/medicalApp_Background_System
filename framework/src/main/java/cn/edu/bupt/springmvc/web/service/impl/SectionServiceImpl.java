@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 
 import cn.edu.bupt.springmvc.web.dao.SectionMapper;
 import cn.edu.bupt.springmvc.web.model.Doctor;
+import cn.edu.bupt.springmvc.web.model.OutpatientExample;
 import cn.edu.bupt.springmvc.web.model.Section;
 import cn.edu.bupt.springmvc.web.model.SectionExample;
 import cn.edu.bupt.springmvc.web.service.SectionService;
@@ -94,6 +95,17 @@ public class SectionServiceImpl implements SectionService {
 		 return sectionMapper.selectSectionDoctorsBySectionId(sectionId);
 	
 	}
+		
+		@Override
+		public Section getSectionById(String sectionId) {
+			sectionExample = new SectionExample();
+			sectionExample.createCriteria().andSectionidEqualTo(sectionId);
+			List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
+			if(sectionList!=null){
+				return sectionList.get(0);
+			}
+			return null;
+		}
 
 
 }
