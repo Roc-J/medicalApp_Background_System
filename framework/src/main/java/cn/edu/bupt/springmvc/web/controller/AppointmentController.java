@@ -17,11 +17,13 @@ import cn.edu.bupt.springmvc.web.model.Customer;
 import cn.edu.bupt.springmvc.web.model.Doctor;
 import cn.edu.bupt.springmvc.web.model.Outpatient;
 import cn.edu.bupt.springmvc.web.model.Releasenum;
+import cn.edu.bupt.springmvc.web.model.Section;
 import cn.edu.bupt.springmvc.web.service.AppointmentService;
 import cn.edu.bupt.springmvc.web.service.CustomerService;
 import cn.edu.bupt.springmvc.web.service.DoctorService;
 import cn.edu.bupt.springmvc.web.service.OutpatientService;
 import cn.edu.bupt.springmvc.web.service.ReleasenumService;
+import cn.edu.bupt.springmvc.web.service.SectionService;
 
 @Controller
 @RequestMapping(value="appointment")
@@ -37,6 +39,8 @@ public class AppointmentController extends GenericController {
 	private OutpatientService outpatientService;
 	@Resource 
 	private ReleasenumService releasenumService;
+	@Resource 
+	private SectionService sectionService;
 	
 	@RequestMapping(value="insert")
 	public void insert(HttpServletRequest request, HttpServletResponse response){
@@ -81,45 +85,41 @@ public class AppointmentController extends GenericController {
 		}
 	}
 	
-	/**
-	 * 得到预约信息详情
-	 * @param request
-	 * @param response
+	/*
+	 * 得到详细的预约信息
 	 */
 	@RequestMapping(value="getAppointmentDetails", method = RequestMethod.GET)
 	public void getAppointmentDetails(HttpServletRequest request, HttpServletResponse response){
 	
-		String id = request.getParameter("id");
+		String idCard = request.getParameter("idCard");
 		String doctorId = request.getParameter("doctorId");
-		String releaseNumId = request.getParameter("releaseNumId");
+		String releasenumId = request.getParameter("releaseNumId");
 		Appointment appointment = new Appointment();
-		
 		try {
 			
-			Customer customer = customerService.getCustoemrDetailsByIdCard(id);
+			Customer customer = customerService.getCustoemrDetailsByIdCard(idCard);
 			Doctor doctor= doctorService.getDoctorDetailInfo(doctorId);
 			Outpatient outpatient = outpatientService.getOutpatientDetailsById(doctor.getOutpatientid());
-			Releasenum releasenum = releasenumService.getReleasenumDetailsById(releaseNumId);
-			if(customer!=null && doctor!=null && outpatient!=null && releasenum!=null){
+			Releasenum releasenum = releasenumService.getReleasenumDetailsById(releasenumId);
+			Section section = sectionService.getSectionById(outpatient.getSectionid());
 			String uuid = UUID.randomUUID().toString();
-			appointment.setId(uuid);	
+			appointment.setId(uuid);
 			appointment.setDoctorid(doctorId);
 			appointment.setCustomerid(customer.getCustomerid());
-			appointment.setAppointdate(releasenum.getDate());
-			appointment.setCustomername(customer.getCustomername());
+			appointment.setRealseid(releasenum.getRealseid());
 			appointment.setIdcard(customer.getIdcard());
-			appointment.setTelephone(outpatient.getTelephone());
-			appointment.setSectionarea(outpatient.getOutpatientloc());
 			appointment.setSectionname(outpatient.getSectionname());
-			appointment.setCost(5.0);
+			appointment.setOutpatientname(outpatient.getOutpatientname());
+			appointment.setTelephone(outpatient.getTelephone());
+			appointment.setSectionarea(section.getSectionloc());
+			appointment.setAppointdate(releasenum.getDate());
+			appointment.setCost(releasenum.getPrice());
 			renderSuccessString(response, appointment);
-			}else{
-			renderErrorString(response, "Error to obtain appointmentInfo!");
-			}
-			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			renderErrorString(response, "Error to obtain appointmentInfo!");
+			renderErrorString(response, "can't obtain appointment!");
+			e.printStackTrace();
+			
 		}
 		
 	}
@@ -128,6 +128,7 @@ public class AppointmentController extends GenericController {
 	 * 保存预约信息
 	 * @param request
 	 * @param response
+	 * 
 	 */
 	@RequestMapping(value="insertDetails")
 	public void saveAppointmentDetails(HttpServletRequest request, HttpServletResponse response){
