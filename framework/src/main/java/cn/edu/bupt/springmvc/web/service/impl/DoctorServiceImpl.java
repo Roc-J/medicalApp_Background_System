@@ -146,7 +146,7 @@ public class DoctorServiceImpl implements DoctorService {
 				String todays = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
 				Date date2 = (new SimpleDateFormat("yyyy-MM-dd")).parse(todays);
 
-				releasenumExample.createCriteria().andDoctoridEqualTo(doctorId).andDateBetween(date1, date2);
+				releasenumExample.createCriteria().andDoctoridEqualTo(doctorId).andDateBetween(date1, date2).andIssuccessEqualTo((byte)1);
 				List<Releasenum> releasenumList = releasenumMapper.selectByExample(releasenumExample);
 				if(releasenumList!=null){
 				doctor.setReleaseNumList(releasenumList);

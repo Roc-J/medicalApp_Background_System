@@ -213,6 +213,24 @@ public class Doctor {
 				+ ", isfamilydoc=" + isfamilydoc + ", telephone=" + telephone + ", relnubcount=" + relnubcount
 				+ ", releaseNumList=" + releaseNumList + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Doctor)){
+			return false;
+		}
+		Doctor doc = (Doctor)obj;
+		if(this.doctorid == doc.getDoctorid()){
+			return true;
+		}
+		return false;
+	}
+	
     
     
 }
