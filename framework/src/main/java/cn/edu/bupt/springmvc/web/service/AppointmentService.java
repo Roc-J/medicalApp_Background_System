@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import cn.edu.bupt.springmvc.web.dto.AppointmentRecordDTO;
 import cn.edu.bupt.springmvc.web.model.Appointment;
 import cn.edu.bupt.springmvc.web.model.AppointmentExample;
 
@@ -18,4 +19,7 @@ public interface AppointmentService {
 	int updateByPrimaryKeySelective(@Param("record") Appointment record);
 	
 	int deleteByExample();
+
+	List<AppointmentRecordDTO> getAppointRecordDTOByCustomerId(String customreId) throws Exception;
+
 }

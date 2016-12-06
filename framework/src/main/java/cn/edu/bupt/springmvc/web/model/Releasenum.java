@@ -13,7 +13,7 @@ public class Releasenum {
 
     private String remark;
 
-    private Byte issuccess;
+    private Byte issuccess;//1表示预约成功 0表示预约失败
 
     private Integer isfamilynum;
 
