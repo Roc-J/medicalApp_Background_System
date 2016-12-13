@@ -81,7 +81,12 @@ public class SectionController extends GenericController {
 	@RequestMapping(value="searchSectionInfo")
 	public void searchSectionInfo(HttpServletRequest request, HttpServletResponse response){
 		String sectionId = request.getParameter("data");
-		
+		Section record = sectionService.getSectionById(sectionId);
+		if (record!=null) {
+			renderSuccessString(response, record);
+		} else {
+			renderErrorString(response, "select section info error!sorry!");
+		}
 	}
 	
 	@RequestMapping(value="update")

@@ -43,7 +43,7 @@ public class HospitalController extends GenericController {
 	
 	/**
 	 * 
-	 * 
+	 * 因为医院是默认的，所以这里是设定了医院的ID
 	 * @param request
 	 * @param response
 	 */
